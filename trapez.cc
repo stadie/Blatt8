@@ -45,37 +45,35 @@ std::vector<std::vector<double>> romberg(std::vector<double> I) {
 void testeAufgabe1() {
   Pol1 f;
   std::vector<double> I_f = trapez(f, 0, 3, 3);
-  for(double tf : I_f) {
-    std::cout << "A1: f:" << tf << " == " << 19.5 << ":" << (tf == 19.5 ? "ja" :
-"nein") << std::endl;
+  for (double tf : I_f) {
+    std::cout << "A1: f:" << tf << " == " << 19.5 << ":" << (tf == 19.5 ? "ja" : "nein") << std::endl;
   }
   Pol2 g;
   std::cout << "A1: g(1) = 2 ?" << (g(1) == 2 ? "ja" : "nein") << std::endl;
   std::vector<double> I_g = trapez(g, 0, 3, 3);
-  std::cout << "A1: g0:" << I_g[0]<< " == " << 10.5 << ":" << (tf == 10.5 ? "ja"
-: "nein") << std::endl; std::cout << "A1: g1:" << I_g[1]<< " == " << -3.75 <<
-":" << (tf == -3.75 ? "ja" : "nein") << std::endl; std::cout << "A1: g2:" <<
-I_g[2]<< " == " << -2.0625 << ":" << (tf == -2.0625 ? "ja" : "nein") <<
-std::endl; double rich = richardson(I_g[1], I_g[0]); std::cout << "A1:
-Richardson:" << rich << ":" << (rich == -1.5 ? "ja" : "nein") << std::endl;
+  std::cout << "A1: g0:" << I_g[0] << " == " << -10.5 << ":" << (I_g[0] == -10.5 ? "ja" : "nein") << std::endl;
+  std::cout << "A1: g1:" << I_g[1] << " == " << -3.75 << ":" << (I_g[1] == -3.75 ? "ja" : "nein") << std::endl;
+  std::cout << "A1: g2:" << I_g[2] << " == " << -2.0625 << ":" << (I_g[2] == -2.0625 ? "ja" : "nein") << std::endl;
+  double rich = richardson(I_g[0], I_g[1]);
+  std::cout << "A1: Richardson : " << rich << " : " << (rich == -1.5 ? "ja " : "nein") << std::endl;
 }
 
 void testeAufgabe2() {
-  std::vector<std::vector<double> > Rf = romberg(trapez(f, 0, 3, 3));
+  Pol1 f;
+  std::vector<std::vector<double>> Rf = romberg(trapez(f, 0, 3, 3));
   bool alle_richtig = true;
   int entries = 0;
-  for(auto row : Rf) {
-    for(double val : row) {
+  for (auto row : Rf) {
+    for (double val : row) {
       alle_richtig &= val == 19.5;
-      ++entries
+      ++entries;
     }
   }
-  std::cout << "A2: alle Eintraege für f sind 1.5:" << (alle_richtig ? "ja" :
-"nein") << std::endl; std::cout << "A2: korrekte Zahl an Einträgen:" << (entries
-== 10 ? "ja" : "nein") << std::endl; std::vector<std::vector<double> > Rg =
-romberg(trapez(g, 0, 3, 3)); std::cout << "A2: R[1][1] und R[2][1] für g gleich
--19,5:" << ((Rg[1][1] == -19.5) && (Rg[2][1] == -19.5) ? "ja" : "nein") <<
-std::endl;
+  std::cout << "A2: alle Eintraege für f sind 1.5:" << (alle_richtig ? "ja" : "nein") << std::endl;
+  std::cout << "A2: korrekte Zahl an Einträgen:" << (entries == 10 ? "ja" : "nein") << std::endl;
+  Pol2 g;
+  std::vector<std::vector<double>> Rg = romberg(trapez(g, 0, 3, 3));
+  std::cout << "A2: R[1][1] und R[2][1] für g gleich -1.5: " << ((Rg[1][1] == -1.5) && (Rg[2][1] == -1.5) ? " ja " : " nein") << std::endl;
 }
 */
 
@@ -92,7 +90,14 @@ int main() {
   for (unsigned int i = 0; i < tf.size(); ++i) { // Schleife ueber Werte im Feld
     std::cout << "I_" << i << " = " << tf[i] << std::endl;
   }
-
+  std::cout << "Romberg:\n";
+  std::vector<std::vector<double> > R = romberg(tf);
+  for(int k = 0, l = R.size() ;  k < l ; ++k) {
+    for(int n = 0, m = R[k].size() ;  n < m ; ++n) {
+      std::cout << R[k][n] << " ";
+    }
+    std::cout << std::endl;
+  }
   /*
   testeAufgabe1();
   testeAufgabe2();
